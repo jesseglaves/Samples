@@ -1,0 +1,2124 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>GoAbbaco - Multi Trans</title>
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<!--<script src="js/core.js"></script>-->
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/sprout.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/grid.css">
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		var cont;
+		
+		$('.button').on('mousedown touchstart', function(e) {
+		
+			var loc = e.target;
+			cont = '#'+$(loc).closest('.block').attr('id');
+			
+		});
+		
+		UpdateCounts();
+			
+		var intervalId;
+		
+		// Owner X Controls
+		
+		$('.x_controls .xbtn_up').bind('mousedown touchstart', function(event) {
+		    intervalId = setInterval(X_CountUp, 50);
+		}).bind('mouseup touchend', function(event) {
+		    clearInterval(intervalId);
+		}).mouseleave(function() {
+		    clearInterval(intervalId);
+		});
+		
+		function X_CountUp() {
+			
+			if ($(cont+' .life .leftalign .unit').length < 10) {
+				
+				$(cont+' .life .leftalign .units').append('<div class="unit">&nbsp;</div>');
+				$(cont+' .life .rightalign .units').append('<div class="unit">&nbsp;</div>');
+				
+			}
+			
+			UpdateCounts();
+		}
+		
+		$('.x_controls .xbtn_down').bind('mousedown touchstart', function(event) {
+		  intervalId = setInterval(X_CountDown, 50);
+		}).bind('mouseup touchend', function(event) {
+		  clearInterval(intervalId);
+		}).mouseleave(function() {
+		  clearInterval(intervalId);
+		});
+		
+		function X_CountDown() {
+			
+			if ($(cont+' .life .leftalign .unit').length > 0) {
+				$(cont+' .life .leftalign .unit').last().remove();
+				$(cont+' .life .rightalign .unit').last().remove();
+				
+				if ($(cont+' .death1 .rightalign .unit').length > $(cont+' .life .leftalign .unit').length) {
+				
+					$(cont+' .death1 .rightalign .unit').last().remove();
+					$(cont+' .death2 .rightalign .unit').last().remove();
+					$(cont+' .burial1 .rightalign .unit').last().remove();
+				
+				}
+				
+				if ($(cont+' .death1 .leftalign .unit').length > $(cont+' .life .rightalign .unit').length) {
+				
+					$(cont+' .death1 .leftalign .unit').last().remove();
+					$(cont+' .death2 .leftalign .unit').last().remove();
+					$(cont+' .burial1 .leftalign .unit').last().remove();
+				
+				}
+			}
+			
+			UpdateCounts();
+		}
+		
+		// Owner Y Controls
+		
+		$('.y_controls .ybtn_up').bind('mousedown touchstart', function(event) {
+		    intervalId = setInterval(Y_CountUp, 50);
+		}).bind('mouseup touchend', function(event) {
+		    clearInterval(intervalId);
+		}).mouseleave(function() {
+		    clearInterval(intervalId);
+		});
+		
+		function Y_CountUp() {
+			
+			//alert('test');
+			
+			if ($(cont+' .death1 .rightalign .unit').length < 10 && $(cont+' .death1 .rightalign .unit').length < $(cont+' .life .leftalign .unit').length) {
+				
+				$(cont+' .death1 .rightalign .units').append('<div class="unit">&nbsp;</div>');
+				$(cont+' .death2 .rightalign .units').append('<div class="unit">&nbsp;</div>');
+				$(cont+' .burial1 .rightalign .units').append('<div class="unit">&nbsp;</div>');
+				
+			}
+			
+			UpdateCounts();
+		}
+		
+		$('.y_controls .ybtn_down').bind('mousedown touchstart', function(event) {
+		  intervalId = setInterval(Y_CountDown, 50);
+		}).bind('mouseup touchend', function(event) {
+		  clearInterval(intervalId);
+		}).mouseleave(function() {
+		  clearInterval(intervalId);
+		});
+		
+		function Y_CountDown() {
+			
+			//alert('test');
+			
+			if ($(cont+' .death1 .rightalign .unit').length > 0) {
+				
+				$(cont+' .death1 .rightalign .unit').last().remove();
+				$(cont+' .death2 .rightalign .unit').last().remove();
+				$(cont+' .burial1 .rightalign .unit').last().remove();
+				
+			}
+			
+			UpdateCounts();
+		}
+		
+		// Owner Z Controls
+		
+		$('.z_controls .zbtn_up').bind('mousedown touchstart', function(event) {
+		    intervalId = setInterval(Z_CountUp, 50);
+		}).bind('mouseup touchend', function(event) {
+		    clearInterval(intervalId);
+		}).mouseleave(function() {
+		    clearInterval(intervalId);
+		});
+		
+		function Z_CountUp() {
+			
+			//alert('test');
+			
+			if ($(cont+' .death1 .leftalign .unit').length < 10 && $(cont+' .death1 .leftalign .unit').length < $(cont+' .life .leftalign .unit').length) {
+				
+				$(cont+' .death1 .leftalign .units').append('<div class="unit">&nbsp;</div>');
+				$(cont+' .death2 .leftalign .units').append('<div class="unit">&nbsp;</div>');
+				$(cont+' .burial1 .leftalign .units').append('<div class="unit">&nbsp;</div>');
+				
+			}
+			
+			UpdateCounts();
+		}
+		
+		$('.z_controls .zbtn_down').bind('mousedown touchstart', function(event) {
+		  intervalId = setInterval(Z_CountDown, 50);
+		}).bind('mouseup touchend', function(event) {
+		  clearInterval(intervalId);
+		}).mouseleave(function() {
+		  clearInterval(intervalId);
+		});
+		
+		function Z_CountDown() {
+			
+			//alert('test');
+			
+			if ($(cont+' .death1 .leftalign .unit').length > 0) {
+				
+				$(cont+' .death1 .leftalign .unit').last().remove();
+				$(cont+' .death2 .leftalign .unit').last().remove();
+				$(cont+' .burial1 .leftalign .unit').last().remove();
+				
+			}
+			
+			UpdateCounts();
+		}
+		
+		function UpdateCounts() {
+			$(cont+' .life .countleft').text($(cont+' .life .leftalign .unit').length);
+			$(cont+' .life .countright').text('['+$(cont+' .life .leftalign .unit').length+']');
+			$(cont+' .death1 .countleft').text('['+$(cont+' .death1 .leftalign .unit').length+']');
+			$(cont+' .death1 .countright').text($(cont+' .death1 .rightalign .unit').length);
+			$(cont+' .death2 .countleft').text($(cont+' .death2 .leftalign .unit').length);
+			$(cont+' .death2 .countright').text('['+$(cont+' .death2 .rightalign .unit').length+']');
+			$(cont+' .burial1 .countleft').text('['+$(cont+' .burial1 .leftalign .unit').length+']');
+			$(cont+' .burial1 .countright').text($(cont+' .burial1 .rightalign .unit').length);
+			
+			var $lftlngth = $(cont+' .burial1 .leftalign .unit').length;
+			var $rtlngth = $(cont+' .burial1 .rightalign .unit').length;
+			
+			$(cont+' .burial2 .countleft').text(IsPos($lftlngth - $rtlngth));
+			$(cont+' .burial2 .countright').text('['+IsPos($rtlngth - $lftlngth)+']');
+			
+			// Update Burial
+			
+			$(cont+' .burial2 .leftalign .unit').remove();
+			$(cont+' .burial2 .rightalign .unit').remove();
+			
+			for ($i = 0; $i < IsPos($lftlngth - $rtlngth); $i++) {
+				
+				$(cont+' .burial2 .leftalign .units').append('<div class="unit">&nbsp;</div>');
+				
+			}
+			
+			for ($i = 0; $i < IsPos($rtlngth - $lftlngth); $i++) {
+				
+				$(cont+' .burial2 .rightalign .units').append('<div class="unit">&nbsp;</div>');
+				
+			}
+			
+			// Financial Statement
+			
+			//Category Labels
+			
+			$('#revenue .one .catlabel').text($('#sale select.rightbottom').val());
+			$('#revenue .two .catlabel').text($('#purchase select.rightbottom').val());
+			$('#revenue .three .catlabel').text($('#ownerwithdraw select.rightbottom').val());
+			
+			$('#expenses .one .catlabel').text($('#purchase select.leftbottom').val());
+			$('#expenses .two .catlabel').text($('#sale select.leftbottom').val());
+			$('#expenses .three .catlabel').text($('#ownerinvest select.leftbottom').val());
+			
+			$('#statement_of_changes .one .catlabel').text($('#ownerinvest select.rightbottom').val());
+			$('#statement_of_changes .two .catlabel').text($('#ownerwithdraw select.leftbottom').val());
+			
+			$('#assets .one .catlabel').text($('#ownerinvest select.lefttop').val());
+			$('#assets .two .catlabel').text($('#sale select.lefttop').val());
+			$('#assets .three .catlabel').text($('#purchase select.lefttop').val());
+			$('#assets .four .catlabel').text($('#ownerwithdraw select.lefttop').val());
+			
+			$('#liabilities .one .catlabel').text($('#ownerinvest select.righttop').val());
+			$('#liabilities .two .catlabel').text($('#purchase select.righttop').val());
+			$('#liabilities .three .catlabel').text($('#sale select.righttop').val());
+			$('#liabilities .four .catlabel').text($('#ownerwithdraw select.righttop').val());
+			
+			//Revenue
+			
+			$('#revenue .one li span').text($('#sale .death2 .countright').text());
+			$('#revenue .two li span').text($('#purchase .death2 .countright').text());
+			$('#revenue .three li span').text($('#ownerwithdraw .death2 .countright').text());
+			
+			var v1 = parseInt(ReplaceBrackets($('#sale .death2 .countright').text()));
+			var v2 = parseInt(ReplaceBrackets($('#purchase .death2 .countright').text()));
+			var v3 = parseInt(ReplaceBrackets($('#ownerwithdraw .death2 .countright').text()));
+			
+			var revenue = v1 + v2 + v3;
+			
+			$('#revenue .total_revenue li span').text('['+revenue+']');
+			
+			// Expenses
+			
+			$('#expenses .one li span').text($('#purchase .death2 .countleft').text());
+			$('#expenses .two li span').text($('#sale .death2 .countleft').text());
+			$('#expenses .three li span').text($('#ownerinvest .death2 .countleft').text());
+			
+			var v1 = parseInt(ReplaceBrackets($('#purchase .death2 .countleft').text()));
+			var v2 = parseInt(ReplaceBrackets($('#sale .death2 .countleft').text()));
+			var v3 = parseInt(ReplaceBrackets($('#ownerinvest .death2 .countleft').text()));
+			
+			var expense = v1 + v2 + v3;
+			
+			$('#expenses .total_expenses li span').text(expense);
+			
+			var v1 = parseInt(ReplaceBrackets($('#purchase .death2 .countleft').text()));
+			var v2 = parseInt(ReplaceBrackets($('#sale .death2 .countleft').text()));
+			var v3 = parseInt(ReplaceBrackets($('#ownerinvest .death2 .countleft').text()));
+			
+			var total = revenue - expense;
+			
+			$('#expenses .income_due_owner li span').text('['+total+']');
+			
+			// Statement of Changes
+			
+			$('#statement_of_changes .income_due_owner li span').text('['+total+']');
+			$('#statement_of_changes .one li span').text($('#ownerinvest .death2 .countright').text());
+			$('#statement_of_changes .two li span').text($('#ownerwithdraw .death2 .countleft').text());
+			
+			var v1 = parseInt(ReplaceBrackets($('#ownerinvest .death1 .countright').text()));
+			var v2 = parseInt(ReplaceBrackets($('#ownerwithdraw .death1 .countleft').text()));
+			
+			var netactivity = v1 - v2;
+			var duetoowner = parseInt(netactivity + parseInt(ReplaceBrackets($('#statement_of_changes .income_due_owner li span').text())));
+			
+			$('#statement_of_changes .net_activity_with_owner li span').text('['+netactivity+']');
+			$('#statement_of_changes .due_to_owner li span').text('['+duetoowner+']');
+			
+			// Assets
+			
+			var a = parseInt(ReplaceBrackets($('#ownerinvest .life .countleft').text()));
+			var b = parseInt(ReplaceBrackets($('#ownerinvest .death1 .countleft').text()));
+			
+			$('#assets .one li span').text(a - b);
+			
+			var c = parseInt(ReplaceBrackets($('#sale .life .countleft').text()));
+			var d = parseInt(ReplaceBrackets($('#sale .death1 .countleft').text()));
+			
+			$('#assets .two li span').text(c - d);
+			
+			var e = parseInt(ReplaceBrackets($('#purchase .life .countleft').text()));
+			var f = parseInt(ReplaceBrackets($('#purchase .death1 .countleft').text()));
+			
+			$('#assets .three li span').text(e - f);
+			
+			var g = parseInt(ReplaceBrackets($('#ownerwithdraw .life .countleft').text()));
+			var h = parseInt(ReplaceBrackets($('#ownerwithdraw .death1 .countleft').text()));
+			
+			$('#assets .four li span').text(g - h);
+			
+			var totalassets = (a-b) + (c-d) + (e-f) + (g-h);
+			
+			$('#assets .total_assets li span').text(totalassets);
+			
+			// Liabilities
+			
+			var a = parseInt(ReplaceBrackets($('#ownerinvest .life .countright').text()));
+			var b = parseInt(ReplaceBrackets($('#ownerinvest .death1 .countright').text()));
+			
+			//var ab = parseInt(ReplaceBrackets($('#ownerwithdraw .life .countright').text()));
+			
+			$('#liabilities .one li span').text('['+(a - b)+']');
+			
+			
+			var c = parseInt(ReplaceBrackets($('#purchase .life .countright').text()));
+			var d = parseInt(ReplaceBrackets($('#purchase .death1 .countright').text()));
+			
+			$('#liabilities .two li span').text('['+(c - d)+']');
+			
+			var e = parseInt(ReplaceBrackets($('#sale .life .countright').text()));
+			var f = parseInt(ReplaceBrackets($('#sale .death1 .countright').text()));
+			
+			$('#liabilities .three li span').text('['+(e - f)+']');
+			
+			var g = parseInt(ReplaceBrackets($('#ownerwithdraw .life .countright').text()));
+			var h = parseInt(ReplaceBrackets($('#ownerwithdraw .death1 .countright').text()));
+			
+			$('#liabilities .four li span').text('['+(g - h)+']');
+			
+			var duetothird = (a-b) + (c-d) + (e-f) + (g-h);
+			
+			$('#liabilities .due_to_third_parties li span').text('['+duetothird+']');
+			
+			$('#liabilities .due_owner_as_first li span').text('['+duetoowner+']');
+			
+			var totalliabilityequity = duetothird + duetoowner;
+			
+			$('#liabilities .total_liability_equity li span').text('['+totalliabilityequity+']');
+			
+		}
+		
+		function ReplaceBrackets(content) {
+			
+			content = content.replace('[','');
+			content = content.replace(']','');
+			
+			return content;
+			
+		}
+		
+		$('select.lefttop').change(function(e) {
+			
+			var index = $(this)[0].selectedIndex;
+			var parent = $(this).closest('.block').attr('id');
+			$('#'+parent+' select.leftbottom')[0].selectedIndex = index;
+			
+			UpdateCounts();
+			
+		});
+		
+		$('select.leftbottom').change(function(e) {
+			
+			var index = $(this)[0].selectedIndex;
+			var parent = $(this).closest('.block').attr('id');
+			$('#'+parent+' select.lefttop')[0].selectedIndex = index;
+			
+			UpdateCounts();
+			
+		});
+		
+		$('select.righttop').change(function(e) {
+			
+			var index = $(this)[0].selectedIndex;
+			var parent = $(this).closest('.block').attr('id');
+			$('#'+parent+' select.rightbottom')[0].selectedIndex = index;
+			
+			UpdateCounts();
+			
+		});
+		
+		$('select.rightbottom').change(function(e) {
+			
+			var index = $(this)[0].selectedIndex;
+			var parent = $(this).closest('.block').attr('id');
+			$('#'+parent+' select.righttop')[0].selectedIndex = index;
+			
+			UpdateCounts();
+			
+		});
+		
+		function IsPos($entry) {
+			
+			if ($entry > 0) {
+				return $entry;	
+			} else {
+				return '0';	
+			}
+			
+		}
+		
+	});
+
+</script>
+
+
+</head>
+
+<body class="fs-grid">
+
+	<div class="page">
+    
+		<header id="masthead">
+        
+        	<div class="fs-row contained" style="height:inherit;">
+            
+            	<div class="fs-cell contained">
+                	
+                	<div id="logo" style="float:left;"><embed src="images/goabbaco_logo.svg" width="50px" height="50px" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/" style="float:left;margin-right:10px;" /> <h1 style="height:50px;line-height:40px;display:inline-block;float:left;margin-bottom:0;">go<span style="color:#dd1014;margin-bottom:0;">abbaco</span></h1></div>
+                    
+                    <div class="menu" style="float:right;height:50px;display:block;padding:0 0 0 0;line-height:50px;"><a href="http://bit.ly/tdabacco" style="text-decoration:none;font-size:14px;">Presentation</a></div>
+                    
+                </div>
+                
+            </div>
+            
+            <div class="clear"></div>
+            
+        </header>
+        
+        <div class="margin_m"></div>
+
+        <div class="main">
+        
+            <div class="fs-row">
+                
+                <div id="ownerinvest" class="block fs-cell fs-sm-3 fs-md-6 fs-lg-half fs-xl-half contained" style="position:relative;">
+                    
+                    <div class="fs-row" style="height:inherit;">
+                    	
+                        <div class="fs-cell contained">
+                        
+                        	<h3>Owner Investment</h3>
+                        
+                        </div>
+                        
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="fs-row">
+            
+    <div class="fs-cell x_controls">
+            
+        <a class="button xbtn_up noselect">+</a>
+        <span class="legend">X/[X]</span>
+        <a class="button xbtn_down noselect">-</a>
+            
+    </div>
+    
+</div>
+
+<div class="fs-row labelrow" style="padding:0 40px;">
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+    
+        <select class="lefttop">
+            <option></option>
+            <option>Cash Received</option><option>Accts Receivable</option><option>Inventory</option><option>Plant & Equip (Net)</option><option>Natural Resources (Net)</option><option>Intangible Assets (Net)</option><option>Bond Premium/Discount</option><option>Office Supplies</option><option>Prepaid Insurance</option><option>Prepaid Labor</option><option>Prepaid Utilities</option><option>Prepaid Interest</option><option>Prepaid Rent</option><option>Deferred Taxes</option>        </select>
+    
+    </div>
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+    
+        <select class="righttop">
+            <option></option>
+            <option>Due To Owner as 3rd</option>        </select>
+    
+    </div>
+
+</div>
+
+<div class="module owner-invest">
+
+    <div class="owner y_controls">
+            
+        <a class="button ybtn_up noselect">+</a>
+        <span class="legend">Y/[Y]</span>
+        <a class="button ybtn_down noselect">-</a>
+            
+    </div>
+    
+    <div class="owner z_controls">
+            
+        <a class="button zbtn_up noselect">+</a>
+        <span class="legend">Z/[Z]</span>
+        <a class="button zbtn_down noselect">-</a>
+            
+    </div>
+
+    <div class="fs-row life">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+            
+                <div class="label">Life</div>
+            
+                <div class="halfbubble left"></div>
+                <div class="halfbubble right"></div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row death1">
+    
+        <div class="bubble">
+            
+            <div class="bubblewrapper">
+            
+                <div class="label">D<br />e<br />a<br />t<br />h</div>
+            
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row labelrow">
+    
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+        
+            <select class="leftbottom">
+            	<option></option>
+            	<option>Counterfeit Expense</option><option>Bad Debt Expense</option><option>Cost of Goods Sold</option><option>Depreciation</option><option>Depletion</option><option>Amortization</option><option>Amort of Bond Prem/Disc</option><option>Office Supplies Expense</option><option>Insurance Expense</option><option>Salary/Wage Expense</option><option>Utility Expense</option><option>Interest Expense</option><option>Rent Expense</option><option>Tax Expense</option>        	</select>
+        
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+        
+            <select class="rightbottom">
+            	<option></option>
+            	<option>Contributions</option>        	</select>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row death2">
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial1">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+                
+                <div class="label">B<br/>u<br/>r<br/>i<br/>a<br/>l</div>
+                
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial2">
+    
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+</div>                    
+                    <div class="clear"></div>
+                    
+                </div>
+                
+                <div id="purchase" class="block fs-cell fs-sm-3 fs-md-6 fs-lg-half fs-xl-half contained">
+                    
+                    <div class="fs-row" style="height:inherit;">
+                        
+                        <div class="fs-cell contained">
+                        
+                        	<h3>Purchase</h3>
+                        
+                        </div>
+                        
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="fs-row">
+            
+    <div class="fs-cell x_controls">
+            
+        <a class="button xbtn_up noselect">+</a>
+        <span class="legend">X/[X]</span>
+        <a class="button xbtn_down noselect">-</a>
+            
+    </div>
+    
+</div>
+
+<div class="fs-row labelrow" style="padding:0 40px;">
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+    
+        <select class="lefttop">
+            <option></option>
+            <option>Cash Received</option><option>Accts Receivable</option><option>Inventory</option><option>Plant & Equip (Net)</option><option>Natural Resources (Net)</option><option>Intangible Assets (Net)</option><option>Bond Premium/Discount</option><option>Office Supplies</option><option>Prepaid Insurance</option><option>Prepaid Labor</option><option>Prepaid Utilities</option><option>Prepaid Interest</option><option>Prepaid Rent</option><option>Deferred Taxes</option>        </select>
+    
+    </div>
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+    
+        <select class="righttop">
+            <option></option>
+            <option>Cash Paid</option><option>Due to Vendors</option><option>Other Accts Payable</option><option>Salaries/Wages Payable</option><option>Notes Payable</option><option>Bonds Payable</option>        </select>
+    
+    </div>
+
+</div>
+
+<div class="module owner-invest">
+
+    <div class="owner y_controls">
+            
+        <a class="button ybtn_up noselect">+</a>
+        <span class="legend">Y/[Y]</span>
+        <a class="button ybtn_down noselect">-</a>
+            
+    </div>
+    
+    <div class="owner z_controls">
+            
+        <a class="button zbtn_up noselect">+</a>
+        <span class="legend">Z/[Z]</span>
+        <a class="button zbtn_down noselect">-</a>
+            
+    </div>
+
+    <div class="fs-row life">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+            
+                <div class="label">Life</div>
+            
+                <div class="halfbubble left"></div>
+                <div class="halfbubble right"></div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row death1">
+    
+        <div class="bubble">
+            
+            <div class="bubblewrapper">
+            
+                <div class="label">D<br />e<br />a<br />t<br />h</div>
+            
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row labelrow">
+    
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+        
+            <select class="leftbottom">
+            	<option></option>
+            	<option>Counterfeit Expense</option><option>Bad Debt Expense</option><option>Cost of Goods Sold</option><option>Depreciation</option><option>Depletion</option><option>Amortization</option><option>Amort of Bond Prem/Disc</option><option>Office Supplies Expense</option><option>Insurance Expense</option><option>Salary/Wage Expense</option><option>Utility Expense</option><option>Interest Expense</option><option>Rent Expense</option><option>Tax Expense</option>        	</select>
+        
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+        
+            <select class="rightbottom">
+            	<option></option>
+            	<option>Un-cashed Check Revenue</option><option>Debt Forgiveness (Vendor)</option><option>Debt Forgiveness (AP)</option><option>Debt Forgiveness (S/W Pay)</option><option>Debt Forgiveness (NP)</option><option>Debt Forgiveness (BP)</option>        	</select>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row death2">
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial1">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+                
+                <div class="label">B<br/>u<br/>r<br/>i<br/>a<br/>l</div>
+                
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial2">
+    
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+</div>                    
+                    <div class="clear"></div>
+                    
+                </div>
+                
+                <div class="clear"></div>
+        
+            </div>
+            
+            <div class="fs-row">
+                
+                <div id="sale" class="block fs-cell fs-sm-3 fs-md-6 fs-lg-half fs-xl-half contained">
+                    
+                    <div class="fs-row" style="height:inherit;">
+                        
+                        <div class="fs-cell contained">
+                        
+                        	<h3>Sale</h3>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="fs-row">
+            
+    <div class="fs-cell x_controls">
+            
+        <a class="button xbtn_up noselect">+</a>
+        <span class="legend">X/[X]</span>
+        <a class="button xbtn_down noselect">-</a>
+            
+    </div>
+    
+</div>
+
+<div class="fs-row labelrow" style="padding:0 40px;">
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+    
+        <select class="lefttop">
+            <option></option>
+            <option>Cash Received</option><option>Accts Receivable</option><option>Inventory</option><option>Plant & Equip (Net)</option><option>Natural Resources (Net)</option><option>Intangible Assets (Net)</option><option>Bond Premium/Discount</option><option>Office Supplies</option><option>Prepaid Insurance</option><option>Prepaid Labor</option><option>Prepaid Utilities</option><option>Prepaid Interest</option><option>Prepaid Rent</option><option>Deferred Taxes</option>        </select>
+    
+    </div>
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+    
+        <select class="righttop">
+            <option></option>
+            <option>Due to Customers</option><option>Unearned Revenue</option><option>Unearned Interest</option>        </select>
+    
+    </div>
+
+</div>
+
+<div class="module owner-invest">
+
+    <div class="owner y_controls">
+            
+        <a class="button ybtn_up noselect">+</a>
+        <span class="legend">Y/[Y]</span>
+        <a class="button ybtn_down noselect">-</a>
+            
+    </div>
+    
+    <div class="owner z_controls">
+            
+        <a class="button zbtn_up noselect">+</a>
+        <span class="legend">Z/[Z]</span>
+        <a class="button zbtn_down noselect">-</a>
+            
+    </div>
+
+    <div class="fs-row life">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+            
+                <div class="label">Life</div>
+            
+                <div class="halfbubble left"></div>
+                <div class="halfbubble right"></div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row death1">
+    
+        <div class="bubble">
+            
+            <div class="bubblewrapper">
+            
+                <div class="label">D<br />e<br />a<br />t<br />h</div>
+            
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row labelrow">
+    
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+        
+            <select class="leftbottom">
+            	<option></option>
+            	<option>Counterfeit Expense</option><option>Bad Debt Expense</option><option>Cost of Goods Sold</option><option>Depreciation</option><option>Depletion</option><option>Amortization</option><option>Amort of Bond Prem/Disc</option><option>Office Supplies Expense</option><option>Insurance Expense</option><option>Salary/Wage Expense</option><option>Utility Expense</option><option>Interest Expense</option><option>Rent Expense</option><option>Tax Expense</option>        	</select>
+        
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+        
+            <select class="rightbottom">
+            	<option></option>
+            	<option>Sales Revenue</option><option>Earned Revenue</option><option>Interest Income</option>        	</select>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row death2">
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial1">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+                
+                <div class="label">B<br/>u<br/>r<br/>i<br/>a<br/>l</div>
+                
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial2">
+    
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+</div>                    
+                    <div class="clear"></div>
+                    
+                </div>
+                
+                <div id="ownerwithdraw" class="block fs-cell fs-sm-3 fs-md-6 fs-lg-half fs-xl-half contained">
+                    
+                    <div class="fs-row" style="height:inherit;">
+                        
+                        <div class="fs-cell contained">
+                        
+                        	<h3>Owner Withdraw</h3>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class="fs-row">
+            
+    <div class="fs-cell x_controls">
+            
+        <a class="button xbtn_up noselect">+</a>
+        <span class="legend">X/[X]</span>
+        <a class="button xbtn_down noselect">-</a>
+            
+    </div>
+    
+</div>
+
+<div class="fs-row labelrow" style="padding:0 40px;">
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+    
+        <select class="lefttop">
+            <option></option>
+            <option>Due From Owner</option>        </select>
+    
+    </div>
+    
+    <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+    
+        <select class="righttop">
+            <option></option>
+            <option>Due To Owner as 3rd</option>        </select>
+    
+    </div>
+
+</div>
+
+<div class="module owner-invest">
+
+    <div class="owner y_controls">
+            
+        <a class="button ybtn_up noselect">+</a>
+        <span class="legend">Y/[Y]</span>
+        <a class="button ybtn_down noselect">-</a>
+            
+    </div>
+    
+    <div class="owner z_controls">
+            
+        <a class="button zbtn_up noselect">+</a>
+        <span class="legend">Z/[Z]</span>
+        <a class="button zbtn_down noselect">-</a>
+            
+    </div>
+
+    <div class="fs-row life">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+            
+                <div class="label">Life</div>
+            
+                <div class="halfbubble left"></div>
+                <div class="halfbubble right"></div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row death1">
+    
+        <div class="bubble">
+            
+            <div class="bubblewrapper">
+            
+                <div class="label">D<br />e<br />a<br />t<br />h</div>
+            
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row labelrow">
+    
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:left;padding-right:20px;">
+        
+            <select class="leftbottom">
+            	<option></option>
+            	<option>Withdrawals</option>        	</select>
+        
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-3 fs-lg-6 fs-xl-6 contained" style="text-align:right;padding-left:20px;">
+        
+            <select class="rightbottom">
+            	<option></option>
+            	<option>Withdrawal Cancellation</option>        	</select>
+        
+        </div>
+    
+    </div>
+    
+    <div class="fs-row death2">
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial1">
+    
+        <div class="bubble">
+        
+            <div class="bubblewrapper">
+                
+                <div class="label">B<br/>u<br/>r<br/>i<br/>a<br/>l</div>
+                
+                <div class="fullbubble left"></div>
+                <div class="fullbubble right"></div>
+                
+            </div>
+            
+        </div>
+
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">[0]</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">0</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+    
+    <div class="margin_xs"></div>
+    
+    <div class="fs-row burial2">
+    
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half leftcolor contained">
+        
+            <div class="count countleft">0</div>
+
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 20px 0 30px;">
+                
+                <div class="fs-row leftalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half rightcolor contained">
+        
+            <div class="count countright">[0]</div>
+            
+            <div class="fs-cell fs-sm-full fs-md-full fs-lg-full fs-xl-full contained" style="padding:0 30px 0 20px;">
+            
+                <div class="fs-row rightalign">
+                
+                    <div class="fs-cell fs-sm-half fs-md-half fs-lg-half fs-xl-half units contained">
+                    
+                    </div>
+                    
+                </div>
+                
+            </div>
+        
+        </div>
+    
+    </div>
+</div>                    
+                    <div class="clear"></div>
+                    
+                </div>
+                
+                <div class="clear"></div>
+        
+            </div>
+            
+            <div class="clear"></div>
+        
+        </div>
+        
+        <div class="margin_s"></div>
+        
+        <div class="statement">
+            <div class="fs-row">
+            
+            	<div class="fs-cell contained">
+                	
+                    <h1>Financial Statements</h1>
+        			<hr />
+                    
+                </div>
+            
+                <div class="fs-cell fs-sm-3 fs-md-3 fs-lg-6 fs-xl-6 contained" style="position:relative;">
+                    
+                    <div style="background:#fff;padding:15px;border-radius:5px;">
+                    
+                        <h3>Income Statement</h3>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                            
+                                <p style="display:inline-block; padding-bottom:15px;"><strong>Revenue</strong> (Forgiven Liabilities/Right-Sided Pins)</p>
+                                
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                        
+                                <ul id="revenue" class="list">
+                                    <li>
+                                    
+                                        <ul class="one green">
+                                            <li><div class="box">S</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="two green">
+                                            <li><div class="box">P</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="three green">
+                                            <li><div class="box">OW</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="total_revenue green">
+                                            <li>Total Revenues</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <div class="clear"></div>
+                                        
+                                    </li>
+                                    
+                                </ul>
+                                
+                                <div class="clear"></div>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="margin_s"></div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                            
+                                <p style="display:inline-block; padding-bottom:15px;"><strong>Expenses</strong> (Expired Assets/Left-Leaning Pins)</p>
+                                
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                        
+                                <ul id="expenses" class="list">
+                                    <li>
+                                    
+                                        <ul class="one red">
+                                            <li><div class="box">P</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="two red">
+                                            <li><div class="box">S</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="three red">
+                                            <li><div class="box">OI</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="total_expenses red">
+                                            <li>Total Expenses</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="income_due_owner blue">
+                                            <li>Net Income (Due to Owner)</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <div class="clear"></div>
+                                        
+                                    </li>
+                                </ul>
+                                
+                                <div class="clear"></div>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="clear"></div>
+                    
+                    </div>
+                    
+                    <div style="height:25px; clear:both; position:relative;"></div>
+                    
+                    <div style="background:#fff;padding:15px;border-radius:5px;">
+                    
+                        <h3>Statement of Changes in O/E</h3>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                        
+                                <ul id="statement_of_changes" class="list">
+                                    <li>
+                                    
+                                        <ul class="income_due_owner blue">
+                                            <li>Net Income (Due to Owner)</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="one green">
+                                            <li><div class="box">OI</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="two red">
+                                            <li><div class="box">OW</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="net_activity_with_owner green">
+                                            <li>Net Activity With Owner</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="due_to_owner blue">
+                                            <li>Due to Owner/1st</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <div class="clear"></div>
+                                        
+                                    </li>
+                                </ul>
+                                
+                                <div class="clear"></div>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="clear"></div>
+                    
+                    </div>
+                    
+                    <div style="height:25px; clear:both; position:relative;"></div>
+                    
+                </div>
+                
+                <div class="fs-cell fs-sm-3 fs-md-3 fs-lg-6 fs-xl-6 contained" style="position:relative;">
+                    
+                    <div style="background:#fff;padding:15px;border-radius:5px;">
+                    
+                        <h3>Balance Sheet</h3>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                            
+                                <p style="display:inline-block; padding-bottom:15px;"><strong>Assets</strong> (Remaining Left-Leaning Pins)</p>
+                                
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                        
+                                <ul id="assets" class="list">
+                                    <li>
+                                    
+                                        <ul class="one red">
+                                            <li><div class="box">OI</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="two red">
+                                            <li><div class="box">S</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="three red">
+                                            <li><div class="box">P</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="four red">
+                                            <li><div class="box">OW</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="total_assets red">
+                                            <li>Total Assets</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <div class="clear"></div>
+                                        
+                                    </li>
+                                </ul>
+                                
+                                <div class="clear"></div>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="margin_s"></div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                            
+                                <p style="display:inline-block; padding-bottom:15px;"><strong>Liabilities</strong> (Remaining Right-Sided Pins)</p>
+                                
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="fs-row">
+                        
+                            <div class="fs-cell contained">
+                        
+                                <ul id="liabilities" class="list">
+                                    <li>
+                                    
+                                        <ul class="one green">
+                                            <li><div class="box">OI</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="two green">
+                                            <li><div class="box">P</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="three green">
+                                            <li><div class="box">S</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="four green">
+                                            <li><div class="box">OW</div> <p class="catlabel"></p></li>
+                                            <li><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="due_to_third_parties green">
+                                            <li>Due to 3rd Parties</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="due_owner_as_first blue">
+                                            <li>Due to Owner as 1st</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <ul class="total_liability_equity grey">
+                                            <li>Total Liability & Equity</li>
+                                            <li style="text-align:right;"><span></span></li>
+                                        </ul>
+                                        
+                                        <div class="clear"></div>
+                                        
+                                    </li>
+                                </ul>
+                                
+                                <div class="clear"></div>
+                            
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="clear"></div>
+                    
+                    </div>
+                    
+                </div>
+            
+            </div>
+            
+            <div class="clear"></div>
+        
+        </div>
+    
+    </div>
+
+</body>
+</html>

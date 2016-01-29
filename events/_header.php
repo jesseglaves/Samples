@@ -1,0 +1,3 @@
+<?
+	$eventsMod = new BTXEvents;	
+?>
